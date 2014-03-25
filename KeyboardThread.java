@@ -1,5 +1,8 @@
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
@@ -30,16 +33,26 @@ public class KeyboardThread extends Thread {
 	public boolean EnterText(){
 		try{
 			Robot r = new Robot();
-			int len = this.text.length();
 			
-			for (int i=0; i<len; i++){
-				r.keyPress(KeyEvent.getExtendedKeyCodeForChar(text.charAt(i)));
-				r.keyRelease(KeyEvent.getExtendedKeyCodeForChar(text.charAt(i)));
-				Thread.sleep(10);
-			}
+			/*
+			 * Storing the information in the system clipboard
+			 */
+			StringSelection sel = new StringSelection(text);
+			Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+			cb.setContents(sel, sel);
 			
+			/*
+			 * Inputting the CTRL-V conbination
+			 * Pasting the text
+			 */
+			r.keyPress(KeyEvent.VK_CONTROL);
+			r.keyPress(KeyEvent.VK_V);
+			r.keyRelease(KeyEvent.VK_Z);
+			r.keyRelease(KeyEvent.VK_CONTROL);
 			r.keyPress(10);
 			r.keyRelease(10);
+			
+			Thread.sleep(200);
 			
 			
 			return true;
@@ -53,7 +66,9 @@ public class KeyboardThread extends Thread {
 	
 	public void run(){
 		for (int i=0; i<duration; i++){
-			EnterText();
+			if (!EnterText()){
+				System.out.println("DEBUG-Keyboard Error");
+			}
 		}
 	}
 	
