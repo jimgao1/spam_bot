@@ -74,41 +74,57 @@ public class SpamBot extends JFrame{
 		start.setFont(new Font("Courier New", Font.BOLD, 15));
 		start.setBounds(10, 300, 475, 40);
 		start.addActionListener(new ActionListener(){
+			
+			KeyboardThread kt;
+			
+			@SuppressWarnings("deprecation")
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String t = text.getText();
-				int m = mode.getSelectedIndex();
-				
-				
-				if (!t.equals("") &! duration.getText().equals("")){
+				if (start.getText().equals("Start Spam")){
 					
-					int d = Integer.parseInt(duration.getText());
+					kt = new KeyboardThread();
 					
-					JOptionPane.showMessageDialog(getParent(),
-							"Starting Spam...\n"
-							+ "Text: " + t + "\n"
-							+ "Mode: " + m + "\n"
-							+ "Duration: " + d + "\n"
-							+ "Please focus on the target window,\n"
-							+ "spam is starting in 5 seconds..."
-							+ ""
-							);
+					String t = text.getText();
+					int m = mode.getSelectedIndex();
 					
-					try{
-						Thread.sleep(5000);
-					} catch (InterruptedException ex){
+					
+					if (!t.equals("") &! duration.getText().equals("")){
 						
+						int d = Integer.parseInt(duration.getText());
+						
+						JOptionPane.showMessageDialog(getParent(),
+								"Starting Spam...\n"
+								+ "Text: " + t + "\n"
+								+ "Mode: " + m + "\n"
+								+ "Duration: " + d + "\n"
+								+ "Please focus on the target window,\n"
+								+ "spam is starting in 5 seconds..."
+								+ ""
+								);
+						
+						try{
+							Thread.sleep(5000);
+						} catch (InterruptedException ex){
+							
+						}
+						
+						
+						kt.updateSettings(t, m, d);
+						kt.running = true;
+						kt.start();
+						
+						start.setText("Stop Spam");
+						
+					} else {
+						JOptionPane.showMessageDialog(getParent(), "Invalid Settings");
 					}
-					
-					KeyboardThread kt = new KeyboardThread();
-					kt.updateSettings(t, m, d);
-					kt.start();
-					
+				
 				} else {
-					JOptionPane.showMessageDialog(getParent(), "Invalid Settings");
+					kt.running = false;
+					kt.stop();
+					kt = null;
+					start.setText("Start Spam");
 				}
-				
-				
 				
 				
 			}

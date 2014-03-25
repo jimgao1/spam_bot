@@ -42,7 +42,7 @@ public class KeyboardThread extends Thread {
 			cb.setContents(sel, sel);
 			
 			/*
-			 * Inputting the CTRL-V conbination
+			 * Inputting the CTRL-V combination
 			 * Pasting the text
 			 */
 			r.keyPress(KeyEvent.VK_CONTROL);
@@ -66,8 +66,10 @@ public class KeyboardThread extends Thread {
 	
 	public void run(){
 		for (int i=0; i<duration; i++){
-			if (!EnterText()){
-				System.out.println("DEBUG-Keyboard Error");
+			if (running){
+				if (!EnterText()){
+					System.out.println("DEBUG-Keyboard Error");
+				}
 			}
 		}
 	}
