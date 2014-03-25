@@ -17,7 +17,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class SpamBot extends JFrame{
 
-	public KeyboardThread keyboard;
+
 	
 	public SpamBot(){
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -39,7 +39,7 @@ public class SpamBot extends JFrame{
 		}
 		
 		
-		keyboard = new KeyboardThread();
+		
 		
 		final JTextArea text = new JTextArea("Type your text here...");
 		text.setFont(new Font("Courier New", Font.PLAIN, 14));
@@ -100,8 +100,9 @@ public class SpamBot extends JFrame{
 						
 					}
 					
-					keyboard.updateSettings(t, m, d);
-					keyboard.start();
+					KeyboardThread kt = new KeyboardThread();
+					kt.updateSettings(t, m, d);
+					kt.start();
 					
 				} else {
 					JOptionPane.showMessageDialog(getParent(), "Invalid Settings");
