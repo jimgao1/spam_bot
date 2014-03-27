@@ -3,6 +3,7 @@
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,6 +22,7 @@ public class SpamBot extends JFrame{
 	
 	public SpamBot(){
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		Locale.setDefault(Locale.SIMPLIFIED_CHINESE);
 		this.setTitle("Jim's Spam Bot  v0.1");
 		this.setLayout(null);
 		this.setSize(500, 400);
@@ -42,9 +44,9 @@ public class SpamBot extends JFrame{
 		
 		
 		final JTextArea text = new JTextArea("Type your text here...");
-		text.setFont(new Font("Courier New", Font.PLAIN, 14));
 		text.setBounds(10, 10, 475, 200);
 		this.add(text);
+		
 		
 		JLabel l_mode = new JLabel("Mode: ");
 		l_mode.setFont(new Font("Courier New", Font.PLAIN, 13));
@@ -55,7 +57,7 @@ public class SpamBot extends JFrame{
 		
 		md_modes.addElement("Count");
 		
-		final JComboBox mode = new JComboBox(md_modes);
+		final JComboBox<String> mode = new JComboBox<String>(md_modes);
 		mode.setFont(new Font("Courier New", Font.PLAIN, 13));
 		mode.setBounds(220, 220, 200, 30);
 		this.add(mode);
@@ -77,7 +79,7 @@ public class SpamBot extends JFrame{
 			
 			KeyboardThread kt;
 			
-			@SuppressWarnings("deprecation")
+			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (start.getText().equals("Start Spam")){
@@ -121,7 +123,6 @@ public class SpamBot extends JFrame{
 				
 				} else {
 					kt.running = false;
-					kt.stop();
 					kt = null;
 					start.setText("Start Spam");
 				}
